@@ -1,0 +1,436 @@
+﻿<div data-ng-controller="argController" id="resultsDiv">
+    <div id="container" style="width: 1000px; height: 400px; margin: 0 auto"></div>
+    <ul data-ng-repeat="argument in opt1arguments" style="list-style: none;">
+        <li id="{{ argument.id }}|{{ argument.opt }}"></li>
+    </ul>
+    <br />
+    <ul data-ng-repeat="argument in opt2arguments" style="list-style: none;">
+        <li id="{{ argument.id }}|{{ argument.opt }}"></li>
+    </ul>
+    <button class="rsButton">ayy</button>
+    
+</div>
+
+<script>
+
+    var _discId = window.location.href.substring(window.location.href.indexOf('/discussion/') + 12);
+    var discId = _discId.substring(0, _discId.indexOf('/'));
+
+    function getArgs(opt) {
+        var args = [];
+        var ref = new Firebase('https://discpoll.firebaseio.com/Discussions/' + discId + '/Options/Option' + opt + '/Arguments/');
+        ref.once("value", function (snapshot) {
+            var data = snapshot.val();
+            for (arg in data) {
+                args.push(data[arg]['mainText']);
+            }
+        });
+        return args;
+    }
+
+    function getOpts(opt) {
+        var ret = '';
+        var ref = new Firebase('https://discpoll.firebaseio.com/Discussions/' + discId + '/Options/Option' + opt);
+        ref.once("value", function (snapshot) {
+            var data = snapshot.val();
+            ret = data['name'];
+        });
+        return ret;
+    }
+
+    function getDisc() {
+        var ret = '';
+        var ref = new Firebase('https://discpoll.firebaseio.com/Discussions/' + discId);
+        ref.once("value", function (snapshot) {
+            var data = snapshot.val();
+            ret = data['name'];
+        });
+        return ret;
+    }
+
+    
+    var avgArr1 = [];
+    var avgArr2 = [];
+    function getAvgs() {
+        avgArr1 = [];
+        avgArr2 = [];
+        $('li').each(function () {
+            if (this.id != '') {
+                var _parse = this.id.split('|');
+                var id = _parse[0];
+                var opt = _parse[1];
+                var ref = new Firebase('https://discpoll.firebaseio.com/Discussions/' + discId + '/Options/Option' + opt + '/Arguments/' + id);
+                ref.once("value", function (snapshot) {
+                    var data = snapshot.val();
+                    var votes = data['votes'];
+                    var numbers = 0;
+                    var i = 0;
+                    for (index = 0, len = votes.length; index < len; ++index) {
+                        numbers += parseInt(votes[index]);
+                        i = index + 1;
+                    }
+                    var average = numbers / i;
+                    if (opt == 1)
+                        avgArr1.push(average);
+                    else
+                        avgArr2.push(average);
+                });
+            }
+        });
+        var avgArr1S = 0;
+        var avgArr2S = 0;
+
+
+        for (var i = avgArr1.length; i--;) {
+            avgArr1S += avgArr1[i];
+        }
+        for (var s = avgArr2.length; s--;) {
+            avgArr2S += avgArr2[s];
+        }
+        var calc = avgArr1S + avgArr2S;
+        for (index = 0, len = avgArr1.length; index < len; ++index) {
+            avgArr1[index] = (100 / calc) * avgArr1[index];
+            avgArr1[index] = Math.round(avgArr1[index] * 10) / 10;
+        }
+        for (index = 0, len = avgArr2.length; index < len; ++index) {
+            avgArr2[index] = (100 / calc) * avgArr2[index];
+            avgArr2[index] = Math.round(avgArr2[index] * 10) / 10;
+        }
+    }
+
+    var _ref = new Firebase('https://discpoll.firebaseio.com/Discussions/' + discId);
+    _ref.on('value', function () {
+        var chart = $('#container').highcharts();
+        getAvgs();
+        var avgArr1S = 0;
+        var avgArr2S = 0;
+        
+        
+        for (var i = avgArr1.length; i--;) {
+            avgArr1S += avgArr1[i];
+        }
+        for (var s = avgArr2.length; s--;) {
+            avgArr2S += avgArr2[s];
+        }
+        var calc = avgArr1S + avgArr2S;
+        avgArr1S = Math.round((100 / calc) * avgArr1S * 10) / 10;
+        avgArr2S = Math.round((100 / calc) * avgArr2S * 10) / 10;
+        var colors = Highcharts.getOptions().colors,
+                categories = [getOpts(1), getOpts(2)],
+                data = [{
+
+                    y: avgArr1S,
+                    color: '#fc9247',
+                    drilldown: {
+                        name: categories[0],
+                        categories: getArgs(1),
+                        data: avgArr1,
+                        color: '#fc9247'
+                    }
+                }, {
+                    y: avgArr2S,
+                    color: '#6699cc',
+                    drilldown: {
+                        name: categories[1],
+                        categories: getArgs(2),
+                        data: avgArr2,
+                        color: '#6699cc'
+                    }
+                }],
+                browserData = [],
+                versionsData = [],
+                i,
+                j,
+                dataLen = data.length,
+                drillDataLen,
+                brightness;
+        for (i = 0; i < dataLen; i += 1) {
+
+            // add browser data
+            browserData.push({
+                name: categories[i],
+                y: data[i].y,
+                color: data[i].color
+            });
+
+            // add version data
+            drillDataLen = data[i].drilldown.data.length;
+            for (j = 0; j < drillDataLen; j += 1) {
+                brightness = 0.2 - (j / drillDataLen) / 5;
+                versionsData.push({
+                    name: data[i].drilldown.categories[j],
+                    y: data[i].drilldown.data[j],
+                    color: Highcharts.Color(data[i].color).brighten(brightness).get()
+                });
+            }
+        }
+        chart.series[0].setData(browserData);
+        chart.series[1].setData(versionsData);
+    });
+
+    _ref.on('child_added', function (childSnapshot, prevChildKey) {
+        console.log('test');
+        var chart = $('#container').highcharts();
+        getAvgs();
+        var avgArr1S = 0;
+        var avgArr2S = 0;
+
+
+        for (var i = avgArr1.length; i--;) {
+            avgArr1S += avgArr1[i];
+        }
+        for (var s = avgArr2.length; s--;) {
+            avgArr2S += avgArr2[s];
+        }
+        var calc = avgArr1S + avgArr2S;
+        avgArr1S = Math.round(((100 / calc) * avgArr1S) * 10) / 10;
+        avgArr2S = Math.round(((100 / calc) * avgArr2S) * 10) / 10;
+        var colors = Highcharts.getOptions().colors,
+                categories = [getOpts(1), getOpts(2)],
+                data = [{
+
+                    y: avgArr1S,
+                    color: '#fc9247',
+                    drilldown: {
+                        name: categories[0],
+                        categories: getArgs(1),
+                        data: avgArr1,
+                        color: '#fc9247'
+                    }
+                }, {
+                    y: avgArr2S,
+                    color: '#6699cc',
+                    drilldown: {
+                        name: categories[1],
+                        categories: getArgs(2),
+                        data: avgArr2,
+                        color: '#6699cc'
+                    }
+                }],
+                browserData = [],
+                versionsData = [],
+                i,
+                j,
+                dataLen = data.length,
+                drillDataLen,
+                brightness;
+        for (i = 0; i < dataLen; i += 1) {
+
+            // add browser data
+            browserData.push({
+                name: categories[i],
+                y: data[i].y,
+                color: data[i].color
+            });
+
+            // add version data
+            drillDataLen = data[i].drilldown.data.length;
+            for (j = 0; j < drillDataLen; j += 1) {
+                brightness = 0.2 - (j / drillDataLen) / 5;
+                versionsData.push({
+                    name: data[i].drilldown.categories[j],
+                    y: data[i].drilldown.data[j],
+                    color: Highcharts.Color(data[i].color).brighten(brightness).get()
+                });
+            }
+        }
+        chart.series[0].setData(browserData);
+        chart.series[1].setData(versionsData);
+    });
+
+    _ref.on('child_changed', function (childSnapshot, prevChildKey) {
+        console.log(getArgs(1));
+        console.log('test');
+        var chart = $('#container').highcharts();
+        getAvgs();
+        var avgArr1S = 0;
+        var avgArr2S = 0;
+
+
+        for (var i = avgArr1.length; i--;) {
+            avgArr1S += avgArr1[i];
+        }
+        for (var s = avgArr2.length; s--;) {
+            avgArr2S += avgArr2[s];
+        }
+        var calc = avgArr1S + avgArr2S;
+        avgArr1S = Math.round(((100 / calc) * avgArr1S) * 10) / 10;
+        avgArr2S = Math.round(((100 / calc) * avgArr2S) * 10) / 10;
+        var colors = Highcharts.getOptions().colors,
+                categories = [getOpts(1), getOpts(2)],
+                data = [{
+
+                    y: avgArr1S,
+                    color: '#fc9247',
+                    drilldown: {
+                        name: categories[0],
+                        categories: getArgs(1),
+                        data: avgArr1,
+                        color: '#fc9247'
+                    }
+                }, {
+                    y: avgArr2S,
+                    color: '#6699cc',
+                    drilldown: {
+                        name: categories[1],
+                        categories: getArgs(2),
+                        data: avgArr2,
+                        color: '#6699cc'
+                    }
+                }],
+                browserData = [],
+                versionsData = [],
+                i,
+                j,
+                dataLen = data.length,
+                drillDataLen,
+                brightness;
+        for (i = 0; i < dataLen; i += 1) {
+
+            // add browser data
+            browserData.push({
+                name: categories[i],
+                y: data[i].y,
+                color: data[i].color
+            });
+
+            // add version data
+            drillDataLen = data[i].drilldown.data.length;
+            for (j = 0; j < drillDataLen; j += 1) {
+                brightness = 0.2 - (j / drillDataLen) / 5;
+                versionsData.push({
+                    name: data[i].drilldown.categories[j],
+                    y: data[i].drilldown.data[j],
+                    color: Highcharts.Color(data[i].color).brighten(brightness).get()
+                });
+            }
+        }
+        chart.series[0].setData(browserData);
+        chart.series[1].setData(versionsData);
+    });
+
+    setTimeout(function () {
+
+
+
+
+            getAvgs();
+
+
+            var avgArr1S = 0;
+            var avgArr2S = 0;
+            for (var i = avgArr1.length; i--;) {
+                avgArr1S += avgArr1[i];
+            }
+            for (var s = avgArr2.length; s--;) {
+                avgArr2S += avgArr2[s];
+            }
+            var calc = avgArr1S + avgArr2S;
+            avgArr1S = Math.round((100 / calc) * avgArr1S * 10) / 10;
+            avgArr2S = Math.round((100 / calc) * avgArr2S * 10) / 10;
+            var colors = Highcharts.getOptions().colors,
+                categories = [getOpts(1), getOpts(2)],
+                data = [{
+
+                    y: avgArr1S,
+                    color: '#fc9247',
+                    drilldown: {
+                        name: categories[0],
+                        categories: getArgs(1),
+                        data: avgArr1,
+                        color: '#fc9247'
+                    }
+                }, {
+                    y: avgArr2S,
+                    color: '#6699cc',
+                    drilldown: {
+                        name: categories[1],
+                        categories: getArgs(2),
+                        data: avgArr2,
+                        color: '#6699cc'
+                    }
+                }],
+                browserData = [],
+                versionsData = [],
+                i,
+                j,
+                dataLen = data.length,
+                drillDataLen,
+                brightness;
+
+
+            // Build the data arrays
+            for (i = 0; i < dataLen; i += 1) {
+
+                // add browser data
+                browserData.push({
+                    name: categories[i],
+                    y: data[i].y,
+                    color: data[i].color
+                });
+
+                // add version data
+                drillDataLen = data[i].drilldown.data.length;
+                for (j = 0; j < drillDataLen; j += 1) {
+                    brightness = 0.2 - (j / drillDataLen) / 5;
+                    versionsData.push({
+                        name: data[i].drilldown.categories[j],
+                        y: data[i].drilldown.data[j],
+                        color: Highcharts.Color(data[i].color).brighten(brightness).get()
+                    });
+                }
+            }
+            // Create the chart
+            $('#container').highcharts({
+                chart: {
+                    type: 'pie',
+					backgroundColor: null,
+					
+                },
+                credits: {
+                    enabled: false
+                },
+                title: {
+                    text: getDisc(),
+					style: {
+						color: "#ffffff"
+					}
+                },
+                plotOptions: {
+                    pie: {
+                        shadow: false,
+                        center: ['50%', '50%']
+                    }
+                },
+                tooltip: {
+                    valueSuffix: '%'
+                },
+                series: [{
+                    name: 'Options',
+                    data: browserData,
+                    size: '60%',
+                    dataLabels: {
+                        formatter: function () {
+                            return this.y > 5 ? this.point.name : null;
+                        },
+                        color: '#ffffff',
+                        distance: -30
+                    }
+
+                }, {
+                    name: 'Arguments',
+                    data: versionsData,
+                    size: '80%',
+                    innerSize: '60%',
+                    dataLabels: {
+                        formatter: function () {
+                            // display only if larger than 1
+                            return this.y > 1 ? '<b>' + this.point.name + ':</b> ' + this.y + '%' : null;
+                        },
+						color: '#ffffff'
+                    }
+                }]
+            });
+    }, 2000);
+        
+</script>

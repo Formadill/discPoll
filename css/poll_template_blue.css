@@ -1,0 +1,210 @@
+﻿body {
+	background:
+	linear-gradient(135deg, #8DA7A7 22px, #d9ecff 22px, #d9ecff 24px, transparent 24px, transparent 67px, #d9ecff 67px, #d9ecff 69px, transparent 69px),
+	linear-gradient(225deg, #8DA7A7 22px, #d9ecff 22px, #d9ecff 24px, transparent 24px, transparent 67px, #d9ecff 67px, #d9ecff 69px, transparent 69px)0 64px;
+	background-color:#8DA7A7;
+	background-size: 64px 128px
+}
+
+p, h3, h1{
+	font-family: 'Poiret One', cursive;
+}
+
+
+select{
+	font-family: 'Poiret One', cursive;
+	font-weight: bold;
+	background: transparent;
+	border: 1px solid rgba(0, 0, 0, 0.75);
+	border-top-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+::-webkit-input-placeholder {
+   color: white;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: white;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: white;  
+}
+
+:-ms-input-placeholder {  
+   color: white;  
+}
+
+select:hover{
+	background-color: #8DA7A7;
+}
+
+button{
+	font-family: 'Poiret One', cursive;
+	font-weight: bold;
+	background: transparent;
+	border: 1px solid rgba(0, 0, 0, 0.75);
+	border-top-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+button:hover{
+	background-color: #8DA7A7;
+}
+
+input{
+	font-family: 'Poiret One', cursive;
+	font-weight: bold;
+	background: transparent;
+	border: 1px solid rgba(0, 0, 0, 0.75);
+	border-top-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	
+}
+
+input{
+	padding-left: 2px;
+}
+
+option{
+	background-color: #638A8A;
+}
+
+.poll_opt{
+    width: 47.7%;
+    height: 100px;
+    background-color: #447474;
+    float: left;
+	box-shadow: 0px 0px 0px 4px #447474;
+	border: 1px solid rgba(0, 0, 0, 0.75);
+	border-top-left-radius: 5px;
+	margin: 1%;
+	border-bottom-right-radius: 5px;
+}
+
+#args{
+	width: 95%;
+	margin: 0px auto;	
+}
+
+ul{
+	padding-left: 0px;
+	margin-left: 0px;
+}
+
+.poll_arg_block{
+    width: 47.7%;
+    height: 100%;
+    background-color: #638A8A;
+    float: left;
+	box-shadow: 0px 0px 0px 4px #638A8A;
+	border: 1px solid rgba(0, 0, 0, 0.75);
+	border-top-left-radius: 5px;
+	margin: 1%;
+	border-bottom-right-radius: 5px;
+}
+
+hr{
+	border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+
+.poll_arg{
+    text-align: center;
+}
+
+.arg_text{
+	margin-left: 90px;
+}
+
+.poll_opt_txt{
+    text-align: center;
+    color: white;
+}
+
+.select_weight{
+    float: right;
+    margin-right: 20px;
+	width: 70px;
+}
+
+.extra_arg_info{
+    overflow: hidden;
+    margin-bottom: -10px;
+}
+
+.extra_arg_info_txt{
+    position: relative;
+    top: -13px;
+    z-index: 200;
+}
+
+.arg_add_info{
+    width: 30%;
+}
+
+.arg_add_info_container{
+    overflow: hidden;
+    position: relative;
+    left: 85px;
+    top: -32px;
+}
+
+.add_arg{
+    width: 50%;
+    height: 75px;
+    margin-left: 20px;
+}
+
+.arg_add_cont{
+    margin-top: 10px;
+}
+
+.disc_title{
+	margin-left: 3.455%;
+    width: 92.6%;
+    height: 125px;
+    background-color: #2B6161;
+    line-height: 75px;
+	box-shadow: 0px 0px 0px 4px #2B6161;
+	border: 1px solid rgba(0, 0, 0, 0.75);
+	border-top-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	margin-top: 20px;
+	margin-bottom: 15px;
+}
+
+.disc_title_text{
+    text-align: center;
+    color: white;
+}
+
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter,
+.animate-repeat.ng-leave {
+  transition:all linear 0.5s;
+}
+
+.animate-repeat.ng-leave.ng-leave-active,
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter {
+  opacity:0;
+  max-height:0;
+}
+
+.animate-repeat.ng-leave,
+.animate-repeat.ng-move.ng-move-active,
+.animate-repeat.ng-enter.ng-enter-active {
+  opacity:1;
+  max-height:40px;
+}
+
+footer{
+    width: 210vh;
+    height: 50px;
+    position: fixed;
+    margin-left: -10px;
+    bottom: 0;
+}

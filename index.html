@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html http-equiv="X-UA-Compatible" content="IE=edge" data-ng-app="discPoll">
+<head>
+    <title></title>
+    <link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+    <script src="Scripts/jquery-2.1.4.min.js"></script>
+    <script src="css/JUI/jquery-ui.min.js"></script>
+    <link href='css/JUI/jquery-ui.min.css' rel='stylesheet' type='text/css'>
+    <link href='css/JUI/jquery-ui.structure.min.css' rel='stylesheet' type='text/css'>
+    <link href='css/JUI/jquery-ui.theme.min.css' rel='stylesheet' type='text/css'>
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/angular-route.min.js"></script>   
+    <script src="Scripts/angular-animate.js"></script>
+    <script src="Scripts/firebase.js"></script>
+    <script src="https://cdn.firebase.com/js/simple-login/1.6.4/firebase-simple-login.js"></script>
+    <script src="Scripts/angularfire.min.js"></script>
+    <link href="css/poll_template.css" rel="stylesheet" />
+    <link href="css/global.css" rel="stylesheet" />
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+	
+
+
+</head>
+<body>
+    <div ng-view></div>
+    <script src="js/pollstyle.js" data-ng-controller="argController"></script>
+    <script src="js/app.js"></script>
+    <script src="js/usersystem.js"></script>
+    <div class="dialog" id="dialog_register" title="Register">
+        <form>
+            <label for="name">Nme</label>
+            <input type="text" text="Name" name="name" id="register_username" placeholder="Username" class="text ui-widget-content ui-corner-all">
+            <label for="email">Email</label>
+            <input type="text" name="email" id="register_email" placeholder="Email" class="text ui-widget-content ui-corner-all">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="register_password" placeholder="Password" class="text ui-widget-content ui-corner-all">
+            <hr />
+            
+        </form>
+        <button type="button" class="dialog_register">Register</button>
+        <button type="button" class="dialog_cancel">Cancel</button>
+    </div>
+    <div class="dialog" id="dialog_login" title="Login">
+        <form>
+            <label for="email">Email</label>
+            <input type="text" name="email" id="login_email" placeholder="Email" class="text ui-widget-content ui-corner-all">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="login_password" placeholder="Password" class="text ui-widget-content ui-corner-all">
+            <hr />
+
+        </form>
+        <button type="button" class="dialog_login">Login</button>
+        <button type="button" class="dialog_cancel">Cancel</button>
+    </div>
+</body>
+</html>

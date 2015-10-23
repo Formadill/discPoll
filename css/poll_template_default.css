@@ -1,0 +1,114 @@
+﻿body {
+}
+
+.poll_opt{
+    width: 45%;
+    height: 100px;
+    background-color: darkgray;
+    float: left;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+
+ul{
+	padding-left: 0px;
+	margin-left: 0px;
+}
+
+.poll_arg_block{
+    width: 45%;
+    height: 100vh;
+    background-color: lightgray;
+    float: left;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+
+.poll_arg{
+    margin-left: 40px;
+}
+
+.poll_opt_txt{
+    text-align: center;
+    color: white;
+}
+
+.select_weight{
+    float: right;
+    margin-right: 20px;
+}
+
+.extra_arg_info{
+    overflow: hidden;
+    margin-bottom: -10px;
+}
+
+.extra_arg_info_txt{
+    position: relative;
+    top: -13px;
+    z-index: 200;
+}
+
+.arg_add_info{
+    width: 30%;
+}
+
+.arg_add_info_container{
+    overflow: hidden;
+    position: relative;
+    left: 85px;
+    top: -32px;
+}
+
+.add_arg{
+    width: 50%;
+    height: 75px;
+    margin-left: 20px;
+}
+
+.arg_add_cont{
+    margin-top: 10px;
+}
+
+.disc_title{
+    width: 95%;
+    height: 125px;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    background-color: gray;
+    line-height: 125px;
+}
+
+.disc_title_text{
+    text-align: center;
+    color: white;
+}
+
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter,
+.animate-repeat.ng-leave {
+  transition:all linear 0.5s;
+}
+
+.animate-repeat.ng-leave.ng-leave-active,
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter {
+  opacity:0;
+  max-height:0;
+}
+
+.animate-repeat.ng-leave,
+.animate-repeat.ng-move.ng-move-active,
+.animate-repeat.ng-enter.ng-enter-active {
+  opacity:1;
+  max-height:40px;
+}
+
+footer{
+    width: 210vh;
+    height: 125px;
+    background-color: gray;
+    position: fixed;
+    margin-left: -10px;
+    bottom: 0;
+}

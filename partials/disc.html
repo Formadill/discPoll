@@ -1,0 +1,97 @@
+﻿<header data-ng-controller="argController">
+    <div class="disc_title">
+        <h1 class="disc_title_text">{{discussion.name}}</h1>
+    </div>
+    
+</header>
+
+<div id="args" data-ng-controller="argController">
+	<div class="poll_opt">
+        <h1 class="poll_opt_txt">
+            {{discussion.Options.Option1.name}}
+        </h1>
+    </div>
+    <div class="poll_opt">
+        <h1 class="poll_opt_txt">
+            {{discussion.Options.Option2.name}}
+        </h1>
+    </div>
+    <div class="poll_arg_block">
+        <ul style="list-style: none;">
+            <li data-ng-repeat="arg in opt1arguments" class="animate-repeat">
+                <div class="poll_arg" id="{{ arg.id }}|{{ arg.opt }}">
+                    <select class="select_weight" data-ng-model="option2.Weight">
+                        <option value="">Weight</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <h3 class="arg_text">{{ arg.mainText }}</h3>
+                    <div class="extra_arg_info">
+                        <p class="extra_arg_info_txt" style="display:none;">{{ arg.secondText }}</p>
+                    </div>
+                </div>
+                <hr />
+            </li>
+        </ul>
+        <div class="add_arg">
+            <button class="arg_add_button arg_add_cont" data-ng-click="addArg(1)">Add arg</button>
+            <div style="display:none;" class="arg_add_info_container">
+                <input type="text" data-ng-model="newArg.mainText" class="arg_add_info arg_add_cont" placeholder="Brief summary" />
+                <input type="text" data-ng-model="newArg.secondText" class="arg_add_info arg_add_cont" placeholder="Full argument" />
+                <input type="text" data-ng-model="newArg.Weight" class="arg_add_info arg_add_cont" placeholder="Starting weight" />
+            </div>
+        </div>
+    </div>
+    <div class="poll_arg_block">
+        <ul style="list-style: none;">
+            <li data-ng-repeat="arg in opt2arguments" class="animate-repeat">
+                <div class="poll_arg" id="{{ arg.id }}|{{ arg.opt }}">
+                    <select class="select_weight" data-ng-model="weight">
+                        <option value="">Weight</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <h3 class="arg_text">{{ arg.mainText }}</h3>
+                    <div class="extra_arg_info">
+                        <p class="extra_arg_info_txt" style="display:none;">{{ arg.secondText }}</p>
+                    </div>
+                </div>
+                <hr />
+            </li>
+        </ul>
+        <div class="add_arg">
+            <button class="arg_add_button arg_add_cont" data-ng-click="addArg(2)">Add arg</button>
+            <div style="display:none;" class="arg_add_info_container">
+                <input type="text" data-ng-model="newArg.mainText" class="arg_add_info arg_add_cont" placeholder="Brief summary" />
+                <input type="text" data-ng-model="newArg.secondText" class="arg_add_info arg_add_cont" placeholder="Full argument" />
+                <input type="text" data-ng-model="newArg.Weight" class="arg_add_info arg_add_cont" placeholder="Starting weight" />
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<footer>
+    <div id="footer_contents">
+        <button id="login_button" class="footer_left_button">Login</button>
+        <button id="register_button" class="footer_left_button">Register</button>
+        <button id="logout_button" class="footer_left_button">Logout</button>
+        <button class="send_weight" data-ng-click="sendWeight()">Submit</button>
+    </div>
+</footer>

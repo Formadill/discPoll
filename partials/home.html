@@ -1,0 +1,11 @@
+﻿<div data-ng-controller="homeController">
+    <ul>
+        <li data-ng-repeat="discussion in discussions">
+            <a href="#/discussion/{{ discussion.id }}">{{ discussion.name }}</a>
+        </li>
+    </ul>
+    <input data-ng-model="newDisc.name" type="text" placeholder="Discussion name" />
+    <input data-ng-model="newDisc.opt1" type="text" placeholder="Option 1" />
+    <input data-ng-model="newDisc.opt2" type="text" placeholder="Option 2"/>
+    <button data-ng-click="addDisc()">Add Disc</button>
+</div>
